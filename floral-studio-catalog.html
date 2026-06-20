@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Floral Studio HN — Catálogo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf6f0;
+    --warm-white: #fff9f4;
+    --blush: #e8c5b0;
+    --rose: #c4705a;
+    --deep-rose: #9b4a38;
+    --green: #4a6741;
+    --light-green: #8aaa85;
+    --text: #2a1f1a;
+    --muted: #8a7570;
+    --border: #e0d5cc;
+    --whatsapp: #25D366;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 2rem;
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .logo span { color: var(--rose); }
+
+  .cart-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--rose);
+    color: white;
+    border: none;
+    padding: 0.55rem 1.2rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    position: relative;
+  }
+
+  .cart-btn:hover { background: var(--deep-rose); transform: translateY(-1px); }
+
+  .cart-count {
+    background: white;
+    color: var(--rose);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    min-width: 20px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, #f5ede4 0%, #edddd3 50%, #e8d5c8 100%);
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(196,112,90,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(74,103,65,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    background: rgba(196,112,90,0.15);
+    color: var(--deep-rose);
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 420px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* ─── CATEGORIES NAV ─── */
+  .categories {
+    padding: 2.5rem 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .cat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .cat-tabs {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .cat-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1.2rem;
+    border-radius: 100px;
+    border: 1.5px solid var(--border);
+    background: white;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--muted);
+    transition: all 0.2s;
+    font-weight: 400;
+  }
+
+  .cat-tab:hover { border-color: var(--blush); color: var(--rose); }
+
+  .cat-tab.active {
+    background: var(--rose);
+    border-color: var(--rose);
+    color: white;
+  }
+
+  .cat-tab .icon { font-size: 1rem; }
+
+  /* ─── PRODUCTS GRID ─── */
+  .products-section {
+    padding: 1.5rem 2rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+  }
+
+  .section-count {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* ─── PRODUCT CARD ─── */
+  .product-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.25s, box-shadow 0.25s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(42,31,26,0.1);
+  }
+
+  .card-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-img-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, #f5ede4, #edddd3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    position: relative;
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--rose);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+
+  .card-body {
+    padding: 1.1rem 1.2rem 1.2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-category {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--light-green);
+    margin-bottom: 0.3rem;
+  }
+
+  .card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+
+  .card-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--deep-rose);
+  }
+
+  .card-price span {
+    font-size: 0.75rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    color: var(--muted);
+    margin-left: 2px;
+  }
+
+  .add-btn {
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .add-btn:hover { background: var(--rose); border-color: var(--rose); color: white; }
+
+  .add-btn.added { background: var(--green); border-color: var(--green); color: white; }
+
+  /* ─── CART DRAWER ─── */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(42,31,26,0.4);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .overlay.show { opacity: 1; pointer-events: all; }
+
+  .cart-drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: min(420px, 100vw);
+    height: 100vh;
+    background: white;
+    z-index: 201;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cart-drawer.open { transform: translateX(0); }
+
+  .drawer-header {
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .drawer-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--muted);
+    padding: 0.3rem;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+
+  .close-btn:hover { color: var(--text); }
+
+  .cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 1.5rem;
+  }
+
+  .cart-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted);
+  }
+
+  .cart-empty .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+  .cart-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .ci-icon {
+    width: 52px; height: 52px;
+    background: var(--cream);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+
+  .ci-info { flex: 1; }
+
+  .ci-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-bottom: 0.2rem;
+  }
+
+  .ci-price { font-size: 0.85rem; color: var(--rose); font-weight: 500; }
+
+  .ci-qty {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .qty-btn {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+
+  .qty-btn:hover { background: var(--blush); }
+
+  .qty-num { font-size: 0.9rem; min-width: 20px; text-align: center; }
+
+  /* ─── ORDER FORM ─── */
+  .order-form {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    background: var(--warm-white);
+  }
+
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    color: var(--text);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .form-group label {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 0.55rem 0.75rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--rose); }
+
+  .form-group textarea { resize: none; height: 60px; }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-top: 1px solid var(--border);
+    margin-bottom: 0.8rem;
+  }
+
+  .total-label { font-size: 0.85rem; color: var(--muted); }
+
+  .total-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--deep-rose);
+  }
+
+  .wa-btn {
+    width: 100%;
+    background: var(--whatsapp);
+    color: white;
+    border: none;
+    padding: 0.9rem 1.5rem;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .wa-btn:hover { background: #1dba57; transform: translateY(-1px); }
+
+  .wa-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .wa-icon { font-size: 1.2rem; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+
+  footer strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--text);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ─── HIDDEN ─── */
+  .hidden { display: none !important; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .hero { padding: 3.5rem 1.5rem 2.5rem; }
+    .products-section, .categories { padding-left: 1rem; padding-right: 1rem; }
+    .products-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  /* Fade-in animation */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .product-card { animation: fadeUp 0.4s ease both; }
+
+  .product-card:nth-child(1) { animation-delay: 0.05s; }
+  .product-card:nth-child(2) { animation-delay: 0.1s; }
+  .product-card:nth-child(3) { animation-delay: 0.15s; }
+  .product-card:nth-child(4) { animation-delay: 0.2s; }
+  .product-card:nth-child(5) { animation-delay: 0.25s; }
+  .product-card:nth-child(6) { animation-delay: 0.3s; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">🌸 Floral <span>Studio</span> HN</div>
+    <button class="cart-btn" onclick="toggleCart()">
+      <span>🛒 Mi pedido</span>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">✦ Envíos en Honduras ✦</div>
+  <h1>Regala lo que<br><em>el corazón siente</em></h1>
+  <p>Arreglos florales únicos, ramos personalizados, globos y dulces para cada ocasión especial.</p>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <p class="cat-label">Explorar por categoría</p>
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="filterCat('all', this)">
+      <span class="icon">✦</span> Todo
+    </button>
+    <button class="cat-tab" onclick="filterCat('ramos', this)">
+      <span class="icon">💐</span> Ramos
+    </button>
+    <button class="cat-tab" onclick="filterCat('arreglos', this)">
+      <span class="icon">🌺</span> Arreglos florales
+    </button>
+    <button class="cat-tab" onclick="filterCat('globos', this)">
+      <span class="icon">🎈</span> Globos
+    </button>
+    <button class="cat-tab" onclick="filterCat('dulces', this)">
+      <span class="icon">🍫</span> Dulces & Chocolates
+    </button>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products-section">
+  <div class="section-header">
+    <h2 class="section-title" id="sectionTitle">Todo el catálogo</h2>
+    <span class="section-count" id="sectionCount"></span>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>🌸 Floral Studio HN</strong>
+  Creamos momentos especiales con cada arreglo · Honduras
+</footer>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="drawer-header">
+    <span class="drawer-title">Tu pedido 🌸</span>
+    <button class="close-btn" onclick="toggleCart()">✕</button>
+  </div>
+
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="empty-icon">🌿</div>
+      <p>Aún no has agregado nada.<br>¡Explora el catálogo!</p>
+    </div>
+  </div>
+
+  <div class="order-form" id="orderForm">
+    <p class="form-title">Datos del pedido</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tu nombre</label>
+        <input type="text" id="clientName" placeholder="Ej. María López">
+      </div>
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="tel" id="clientPhone" placeholder="+504 XXXX-XXXX">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Fecha de entrega</label>
+        <input type="date" id="deliveryDate">
+      </div>
+      <div class="form-group">
+        <label>Tipo de entrega</label>
+        <select id="deliveryType">
+          <option value="Recoger en tienda">Recoger en tienda</option>
+          <option value="Entrega a domicilio">Entrega a domicilio</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Dedicatoria (opcional)</label>
+      <textarea id="dedication" placeholder="Ej. Con todo mi amor para ti... 💕"></textarea>
+    </div>
+
+    <div class="total-row">
+      <span class="total-label">Total estimado</span>
+      <span class="total-amount" id="totalAmount">L 0.00</span>
+    </div>
+
+    <button class="wa-btn" id="waBtn" onclick="sendToWhatsApp()" disabled>
+      <span class="wa-icon">💬</span>
+      Enviar pedido por WhatsApp
+    </button>
+  </div>
+</div>
+
+<script>
+// ─── CATALOG DATA ───────────────────────────────────────────────
+// 💡 PERSONALIZA: Cambia nombres, descripciones y precios según tu catálogo real
+// Para agregar imágenes reales: cambia "emoji" por "img" con la URL de tu foto
+
+const products = [
+  // RAMOS
+  { id: 1, cat: 'ramos', name: 'Ramo Romántico Rosas Rojas', emoji: '🌹', desc: 'Ramo de 12 rosas rojas premium con follaje verde y papel kraft', price: 450, badge: '❤️ Más pedido' },
+  { id: 2, cat: 'ramos', name: 'Ramo Pastel de Primavera', emoji: '🌸', desc: 'Mezcla de flores en tonos rosados, lila y blanco con eucalipto', price: 380, badge: null },
+  { id: 3, cat: 'ramos', name: 'Ramo Girasoles Alegres', emoji: '🌻', desc: '10 girasoles frescos con hojas verdes, ideal para animar a alguien', price: 320, badge: null },
+  { id: 4, cat: 'ramos', name: 'Ramo Lilies & Rosas', emoji: '💐', desc: 'Combinación elegante de lilies blancos y rosas blancas', price: 520, badge: '✨ Premium' },
+  // ARREGLOS
+  { id: 5, cat: 'arreglos', name: 'Arreglo en Caja Luxury', emoji: '🌺', desc: 'Flores mixtas en caja de madera con musgo decorativo y lazos', price: 650, badge: '✨ Premium' },
+  { id: 6, cat: 'arreglos', name: 'Arreglo Primaveral en Canasta', emoji: '🧺', desc: 'Canasta tejida con flores coloridas, perfecto como regalo de decoración', price: 480, badge: null },
+  { id: 7, cat: 'arreglos', name: 'Centro de Mesa Elegante', emoji: '🌷', desc: 'Arreglo circular de rosas y peonías, ideal para mesas de celebración', price: 750, badge: '🎉 Especial' },
+  { id: 8, cat: 'arreglos', name: 'Arreglo Corazón de Rosas', emoji: '💝', desc: 'Corazón elaborado con 50 rosas en colores a elegir', price: 890, badge: '❤️ Romántico' },
+  // GLOBOS
+  { id: 9, cat: 'globos', name: 'Ramillete Globos Cumpleaños', emoji: '🎂', desc: 'Set de 5 globos latex de colores + 1 globo número o letra a elegir', price: 220, badge: null },
+  { id: 10, cat: 'globos', name: 'Globo Foil "Te Amo"', emoji: '🎈', desc: 'Globo metálico gigante con frase, relleno de helio, dura hasta 3 días', price: 180, badge: '❤️ Más pedido' },
+  { id: 11, cat: 'globos', name: 'Set Globos + Flores', emoji: '🌸', desc: 'Combina 3 globos metálicos con ramo de flores, ideal para sorpresas', price: 450, badge: '🎁 Combo' },
+  { id: 12, cat: 'globos', name: 'Arco de Globos (decoración)', emoji: '🎊', desc: 'Arco decorativo de 80-100 globos en colores a elegir, para eventos', price: 1200, badge: '✨ Eventos' },
+  // DULCES & CHOCOLATES
+  { id: 13, cat: 'dulces', name: 'Caja Chocolates Ferrero', emoji: '🍫', desc: 'Caja de 16 Ferrero Rocher en presentación regalo con moño', price: 280, badge: '🍫 Favorito' },
+  { id: 14, cat: 'dulces', name: 'Tableta Personalizada', emoji: '🎁', desc: 'Tableta de chocolate belga con mensaje personalizado impreso', price: 180, badge: null },
+  { id: 15, cat: 'dulces', name: 'Canasta Gourmet Dulce', emoji: '🧁', desc: 'Selección de chocolates finos, nueces y dulces en canasta decorada', price: 520, badge: '🎀 Regalo' },
+  { id: 16, cat: 'dulces', name: 'Set Rosas + Chocolates', emoji: '💕', desc: '6 rosas rojas + caja de 8 chocolates surtidos, perfecto en pareja', price: 420, badge: '❤️ Combo' },
+];
+
+// ─── WHATSAPP NUMBER ─────────────────────────────────────────────
+// 💡 PERSONALIZA: Reemplaza con el número de WhatsApp Business real
+const WA_NUMBER = '50412345678'; // Formato: código de país + número sin espacios
+
+// ─── CART STATE ─────────────────────────────────────────────────
+let cart = [];
+let currentCat = 'all';
+
+// ─── RENDER PRODUCTS ────────────────────────────────────────────
+function renderProducts(cat) {
+  const grid = document.getElementById('productsGrid');
+  const filtered = cat === 'all' ? products : products.filter(p => p.cat === cat);
+
+  const catNames = { all: 'Todo el catálogo', ramos: 'Ramos', arreglos: 'Arreglos florales', globos: 'Globos', dulces: 'Dulces & Chocolates' };
+  document.getElementById('sectionTitle').textContent = catNames[cat];
+  document.getElementById('sectionCount').textContent = `${filtered.length} productos`;
+
+  grid.innerHTML = filtered.map(p => {
+    const inCart = cart.find(c => c.id === p.id);
+    return `
+    <div class="product-card" data-id="${p.id}">
+      <div class="card-img-placeholder">
+        ${p.badge ? `<span class="card-badge">${p.badge}</span>` : ''}
+        <span style="font-size:3.8rem">${p.emoji}</span>
+      </div>
+      <div class="card-body">
+        <span class="card-category">${{ramos:'Ramos',arreglos:'Arreglos',globos:'Globos',dulces:'Dulces'}[p.cat]}</span>
+        <h3 class="card-name">${p.name}</h3>
+        <p class="card-desc">${p.desc}</p>
+        <div class="card-footer">
+          <span class="card-price">L ${p.price.toFixed(2)}<span>Lps</span></span>
+          <button class="add-btn ${inCart ? 'added' : ''}" onclick="addToCart(${p.id})" title="Agregar al pedido">
+            ${inCart ? '✓' : '+'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── FILTER CATEGORY ────────────────────────────────────────────
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
+}
+
+// ─── CART FUNCTIONS ─────────────────────────────────────────────
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  const existing = cart.find(c => c.id === id);
+  if (existing) {
+    existing.qty++;
+  } else {
+    cart.push({ ...product, qty: 1 });
+  }
+  updateCartUI();
+  renderProducts(currentCat);
+  if (cart.length === 1) setTimeout(toggleCart, 300);
+}
+
+function updateQty(id, delta) {
+  const item = cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
+  updateCartUI();
+  renderProducts(currentCat);
+}
+
+function updateCartUI() {
+  const count = cart.reduce((a, c) => a + c.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+
+  const total = cart.reduce((a, c) => a + c.price * c.qty, 0);
+  document.getElementById('totalAmount').textContent = `L ${total.toFixed(2)}`;
+
+  const waBtn = document.getElementById('waBtn');
+  waBtn.disabled = cart.length === 0;
+
+  const container = document.getElementById('cartItems');
+  if (cart.length === 0) {
+    container.innerHTML = `
+      <div class="cart-empty">
+        <div class="empty-icon">🌿</div>
+        <p>Aún no has agregado nada.<br>¡Explora el catálogo!</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="ci-icon">${item.emoji}</div>
+      <div class="ci-info">
+        <div class="ci-name">${item.name}</div>
+        <div class="ci-price">L ${item.price.toFixed(2)} c/u</div>
+        <div class="ci-qty">
+          <button class="qty-btn" onclick="updateQty(${item.id}, -1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="updateQty(${item.id}, +1)">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── TOGGLE CART ────────────────────────────────────────────────
+function toggleCart() {
+  const drawer = document.getElementById('cartDrawer');
+  const overlay = document.getElementById('overlay');
+  drawer.classList.toggle('open');
+  overlay.classList.toggle('show');
+}
+
+// ─── SEND TO WHATSAPP ───────────────────────────────────────────
+function sendToWhatsApp() {
+  if (cart.length === 0) return;
+
+  const name = document.getElementById('clientName').value.trim() || 'Cliente';
+  const phone = document.getElementById('clientPhone').value.trim();
+  const date = document.getElementById('deliveryDate').value;
+  const type = document.getElementById('deliveryType').value;
+  const dedication = document.getElementById('dedication').value.trim();
+
+  const total = cart.reduce((a, c) => a + c.price * c.qty, 0);
+
+  let msg = `🌸 *NUEVO PEDIDO — Floral Studio HN*\n\n`;
+  msg += `👤 *Cliente:* ${name}\n`;
+  if (phone) msg += `📱 *Teléfono:* ${phone}\n`;
+  if (date) msg += `📅 *Fecha de entrega:* ${date}\n`;
+  msg += `🚚 *Tipo:* ${type}\n\n`;
+  msg += `🛍️ *Productos solicitados:*\n`;
+  cart.forEach(item => {
+    msg += `  • ${item.emoji} ${item.name} × ${item.qty} = L ${(item.price * item.qty).toFixed(2)}\n`;
+  });
+  msg += `\n💳 *Total estimado: L ${total.toFixed(2)}*\n`;
+  if (dedication) msg += `\n💌 *Dedicatoria:*\n"${dedication}"\n`;
+  msg += `\n_Pedido enviado desde el catálogo web de Floral Studio HN_ 🌸`;
+
+  const encoded = encodeURIComponent(msg);
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encoded}`, '_blank');
+}
+
+// ─── INIT ────────────────────────────────────────────────────────
+renderProducts('all');
+
+// Set min date for delivery to today
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('deliveryDate').min = today;
+document.getElementById('deliveryDate').value = today;
+</script>
+</body>
+</html>
