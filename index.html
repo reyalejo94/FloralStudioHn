@@ -250,28 +250,35 @@
     box-shadow: 0 16px 40px rgba(42,31,26,0.1);
   }
 
-  .card-img {
+  /* Contenedor de imagen real */
+  .card-img-wrap {
     width: 100%;
     aspect-ratio: 4/3;
-    object-fit: cover;
-    background: var(--cream);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3.5rem;
     position: relative;
     overflow: hidden;
+    background: linear-gradient(135deg, #f5ede4, #edddd3);
   }
 
-  .card-img-placeholder {
+  .card-img-wrap img {
     width: 100%;
-    aspect-ratio: 4/3;
-    background: linear-gradient(135deg, #f5ede4, #edddd3);
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .product-card:hover .card-img-wrap img {
+    transform: scale(1.04);
+  }
+
+  /* Fallback emoji cuando no hay imagen */
+  .card-img-wrap .emoji-fallback {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3.5rem;
-    position: relative;
+    font-size: 3.8rem;
   }
 
   .card-badge {
@@ -283,6 +290,7 @@
     border-radius: 100px;
     font-size: 0.7rem;
     letter-spacing: 0.05em;
+    z-index: 1;
   }
 
   .card-body {
@@ -353,7 +361,6 @@
   }
 
   .add-btn:hover { background: var(--rose); border-color: var(--rose); color: white; }
-
   .add-btn.added { background: var(--green); border-color: var(--green); color: white; }
 
   /* ─── CART DRAWER ─── */
@@ -441,6 +448,14 @@
     justify-content: center;
     font-size: 1.6rem;
     flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .ci-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
   }
 
   .ci-info { flex: 1; }
@@ -475,7 +490,6 @@
   }
 
   .qty-btn:hover { background: var(--blush); }
-
   .qty-num { font-size: 0.9rem; min-width: 20px; text-align: center; }
 
   /* ─── ORDER FORM ─── */
@@ -571,9 +585,7 @@
   }
 
   .wa-btn:hover { background: #1dba57; transform: translateY(-1px); }
-
   .wa-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
   .wa-icon { font-size: 1.2rem; }
 
   /* ─── FOOTER ─── */
@@ -593,9 +605,6 @@
     margin-bottom: 0.4rem;
   }
 
-  /* ─── HIDDEN ─── */
-  .hidden { display: none !important; }
-
   /* ─── RESPONSIVE ─── */
   @media (max-width: 600px) {
     .hero { padding: 3.5rem 1.5rem 2.5rem; }
@@ -604,14 +613,12 @@
     .form-row { grid-template-columns: 1fr; }
   }
 
-  /* Fade-in animation */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
   .product-card { animation: fadeUp 0.4s ease both; }
-
   .product-card:nth-child(1) { animation-delay: 0.05s; }
   .product-card:nth-child(2) { animation-delay: 0.1s; }
   .product-card:nth-child(3) { animation-delay: 0.15s; }
@@ -622,7 +629,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="header-inner">
     <div class="logo">🌸 Floral <span>Studio</span> HN</div>
@@ -633,36 +639,23 @@
   </div>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-tag">✦ Envíos en Honduras ✦</div>
   <h1>Regala lo que<br><em>el corazón siente</em></h1>
   <p>Arreglos florales únicos, ramos personalizados, globos y dulces para cada ocasión especial.</p>
 </section>
 
-<!-- CATEGORIES -->
 <section class="categories">
   <p class="cat-label">Explorar por categoría</p>
   <div class="cat-tabs">
-    <button class="cat-tab active" onclick="filterCat('all', this)">
-      <span class="icon">✦</span> Todo
-    </button>
-    <button class="cat-tab" onclick="filterCat('ramos', this)">
-      <span class="icon">💐</span> Ramos
-    </button>
-    <button class="cat-tab" onclick="filterCat('arreglos', this)">
-      <span class="icon">🌺</span> Arreglos florales
-    </button>
-    <button class="cat-tab" onclick="filterCat('globos', this)">
-      <span class="icon">🎈</span> Globos
-    </button>
-    <button class="cat-tab" onclick="filterCat('dulces', this)">
-      <span class="icon">🍫</span> Dulces & Chocolates
-    </button>
+    <button class="cat-tab active" onclick="filterCat('all', this)"><span class="icon">✦</span> Todo</button>
+    <button class="cat-tab" onclick="filterCat('ramos', this)"><span class="icon">💐</span> Ramos</button>
+    <button class="cat-tab" onclick="filterCat('arreglos', this)"><span class="icon">🌺</span> Arreglos florales</button>
+    <button class="cat-tab" onclick="filterCat('globos', this)"><span class="icon">🎈</span> Globos</button>
+    <button class="cat-tab" onclick="filterCat('dulces', this)"><span class="icon">🍫</span> Dulces & Chocolates</button>
   </div>
 </section>
 
-<!-- PRODUCTS -->
 <section class="products-section">
   <div class="section-header">
     <h2 class="section-title" id="sectionTitle">Todo el catálogo</h2>
@@ -671,32 +664,26 @@
   <div class="products-grid" id="productsGrid"></div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <strong>🌸 Floral Studio HN</strong>
   Creamos momentos especiales con cada arreglo · Honduras
 </footer>
 
-<!-- OVERLAY -->
 <div class="overlay" id="overlay" onclick="toggleCart()"></div>
 
-<!-- CART DRAWER -->
 <div class="cart-drawer" id="cartDrawer">
   <div class="drawer-header">
     <span class="drawer-title">Tu pedido 🌸</span>
     <button class="close-btn" onclick="toggleCart()">✕</button>
   </div>
-
   <div class="cart-items" id="cartItems">
     <div class="cart-empty">
       <div class="empty-icon">🌿</div>
       <p>Aún no has agregado nada.<br>¡Explora el catálogo!</p>
     </div>
   </div>
-
   <div class="order-form" id="orderForm">
     <p class="form-title">Datos del pedido</p>
-
     <div class="form-row">
       <div class="form-group">
         <label>Tu nombre</label>
@@ -707,7 +694,6 @@
         <input type="tel" id="clientPhone" placeholder="+504 XXXX-XXXX">
       </div>
     </div>
-
     <div class="form-row">
       <div class="form-group">
         <label>Fecha de entrega</label>
@@ -721,17 +707,14 @@
         </select>
       </div>
     </div>
-
     <div class="form-group">
       <label>Dedicatoria (opcional)</label>
       <textarea id="dedication" placeholder="Ej. Con todo mi amor para ti... 💕"></textarea>
     </div>
-
     <div class="total-row">
       <span class="total-label">Total estimado</span>
       <span class="total-amount" id="totalAmount">L 0.00</span>
     </div>
-
     <button class="wa-btn" id="waBtn" onclick="sendToWhatsApp()" disabled>
       <span class="wa-icon">💬</span>
       Enviar pedido por WhatsApp
@@ -740,42 +723,40 @@
 </div>
 
 <script>
-// ─── CATALOG DATA ───────────────────────────────────────────────
-// 💡 PERSONALIZA: Cambia nombres, descripciones y precios según tu catálogo real
-// Para agregar imágenes reales: cambia "emoji" por "img" con la URL de tu foto
+// ─── CATALOG DATA ────────────────────────────────────────────────
+// Para productos con foto real: usa el campo "img" con la URL de Cloudinary
+// Para productos sin foto aún: usa el campo "emoji" con un emoji
 
 const products = [
   // RAMOS
-  { id: 1, cat: 'ramos', name: 'Ramo Romántico Rosas Rojas', <img>: 'https://res.cloudinary.com/dysmkte9q/image/upload/v1781997054/WhatsApp_Image_2026-06-20_at_2.23.15_PM_1_gzqwbs.jpg', desc: 'Ramo de 12 rosas rojas premium con follaje verde y papel kraft', price: 450, badge: '❤️ Más pedido' },
-  { id: 2, cat: 'ramos', name: 'Ramo Pastel de Primavera', <img>: 'https://res.cloudinary.com/dysmkte9q/image/upload/v1781997055/WhatsApp_Image_2026-06-20_at_2.23.14_PM_5_hds8tt.jpg', desc: 'Mezcla de flores en tonos rosados, lila y blanco con eucalipto', price: 380, badge: null },
-  { id: 3, cat: 'ramos', name: 'Ramo Girasoles Alegres', <img>: 'https://res.cloudinary.com/dysmkte9q/image/upload/v1781997054/WhatsApp_Image_2026-06-20_at_2.23.15_PM_1_gzqwbs.jpg', desc: '10 girasoles frescos con hojas verdes, ideal para animar a alguien', price: 320, badge: null },
-  { id: 4, cat: 'ramos', name: 'Ramo Lilies & Rosas', <img>: 'https://res.cloudinary.com/dysmkte9q/image/upload/v1781997034/WhatsApp_Image_2026-06-20_at_2.24.50_PM_5_jcs93q.jpg', desc: 'Combinación elegante de lilies blancos y rosas blancas', price: 520, badge: '✨ Premium' },
-  // ARREGLOS
-  { id: 5, cat: 'arreglos', name: 'Arreglo en Caja Luxury', emoji: '🌺', desc: 'Flores mixtas en caja de madera con musgo decorativo y lazos', price: 650, badge: '✨ Premium' },
-  { id: 6, cat: 'arreglos', name: 'Arreglo Primaveral en Canasta', emoji: '🧺', desc: 'Canasta tejida con flores coloridas, perfecto como regalo de decoración', price: 480, badge: null },
-  { id: 7, cat: 'arreglos', name: 'Centro de Mesa Elegante', emoji: '🌷', desc: 'Arreglo circular de rosas y peonías, ideal para mesas de celebración', price: 750, badge: '🎉 Especial' },
-  { id: 8, cat: 'arreglos', name: 'Arreglo Corazón de Rosas', emoji: '💝', desc: 'Corazón elaborado con 50 rosas en colores a elegir', price: 890, badge: '❤️ Romántico' },
+  { id: 1,  cat: 'ramos',    name: 'Ramo Romántico Rosas Rojas',      img: 'https://res.cloudinary.com/dysmkte9q/image/upload/v1781997054/WhatsApp_Image_2026-06-20_at_2.23.15_PM_1_gzqwbs.jpg',  desc: 'Ramo de 12 rosas rojas premium con follaje verde y papel kraft',          price: 450,  badge: '❤️ Más pedido' },
+  { id: 2,  cat: 'ramos',    name: 'Ramo Pastel de Primavera',         img: 'https://res.cloudinary.com/dysmkte9q/image/upload/v1781997055/WhatsApp_Image_2026-06-20_at_2.23.14_PM_5_hds8tt.jpg',  desc: 'Mezcla de flores en tonos rosados, lila y blanco con eucalipto',         price: 380,  badge: null },
+  { id: 3,  cat: 'ramos',    name: 'Ramo Girasoles Alegres',           img: 'https://res.cloudinary.com/dysmkte9q/image/upload/v1781997054/WhatsApp_Image_2026-06-20_at_2.23.15_PM_1_gzqwbs.jpg',  desc: '10 girasoles frescos con hojas verdes, ideal para animar a alguien',     price: 320,  badge: null },
+  { id: 4,  cat: 'ramos',    name: 'Ramo Lilies & Rosas',              img: 'https://res.cloudinary.com/dysmkte9q/image/upload/v1781997034/WhatsApp_Image_2026-06-20_at_2.24.50_PM_5_jcs93q.jpg',  desc: 'Combinación elegante de lilies blancos y rosas blancas',                 price: 520,  badge: '✨ Premium' },
+  // ARREGLOS — agrega tus URLs de Cloudinary cuando tengas las fotos
+  { id: 5,  cat: 'arreglos', name: 'Arreglo en Caja Luxury',           emoji: '🌺', desc: 'Flores mixtas en caja de madera con musgo decorativo y lazos',           price: 650,  badge: '✨ Premium' },
+  { id: 6,  cat: 'arreglos', name: 'Arreglo Primaveral en Canasta',    emoji: '🧺', desc: 'Canasta tejida con flores coloridas, perfecto como regalo de decoración', price: 480,  badge: null },
+  { id: 7,  cat: 'arreglos', name: 'Centro de Mesa Elegante',          emoji: '🌷', desc: 'Arreglo circular de rosas y peonías, ideal para mesas de celebración',   price: 750,  badge: '🎉 Especial' },
+  { id: 8,  cat: 'arreglos', name: 'Arreglo Corazón de Rosas',         emoji: '💝', desc: 'Corazón elaborado con 50 rosas en colores a elegir',                     price: 890,  badge: '❤️ Romántico' },
   // GLOBOS
-  { id: 9, cat: 'globos', name: 'Ramillete Globos Cumpleaños', emoji: '🎂', desc: 'Set de 5 globos latex de colores + 1 globo número o letra a elegir', price: 220, badge: null },
-  { id: 10, cat: 'globos', name: 'Globo Foil "Te Amo"', emoji: '🎈', desc: 'Globo metálico gigante con frase, relleno de helio, dura hasta 3 días', price: 180, badge: '❤️ Más pedido' },
-  { id: 11, cat: 'globos', name: 'Set Globos + Flores', emoji: '🌸', desc: 'Combina 3 globos metálicos con ramo de flores, ideal para sorpresas', price: 450, badge: '🎁 Combo' },
-  { id: 12, cat: 'globos', name: 'Arco de Globos (decoración)', emoji: '🎊', desc: 'Arco decorativo de 80-100 globos en colores a elegir, para eventos', price: 1200, badge: '✨ Eventos' },
+  { id: 9,  cat: 'globos',   name: 'Ramillete Globos Cumpleaños',      emoji: '🎂', desc: 'Set de 5 globos latex de colores + 1 globo número o letra a elegir',    price: 220,  badge: null },
+  { id: 10, cat: 'globos',   name: 'Globo Foil "Te Amo"',              emoji: '🎈', desc: 'Globo metálico gigante con frase, relleno de helio, dura hasta 3 días',  price: 180,  badge: '❤️ Más pedido' },
+  { id: 11, cat: 'globos',   name: 'Set Globos + Flores',              emoji: '🌸', desc: 'Combina 3 globos metálicos con ramo de flores, ideal para sorpresas',    price: 450,  badge: '🎁 Combo' },
+  { id: 12, cat: 'globos',   name: 'Arco de Globos (decoración)',       emoji: '🎊', desc: 'Arco decorativo de 80-100 globos en colores a elegir, para eventos',    price: 1200, badge: '✨ Eventos' },
   // DULCES & CHOCOLATES
-  { id: 13, cat: 'dulces', name: 'Caja Chocolates Ferrero', emoji: '🍫', desc: 'Caja de 16 Ferrero Rocher en presentación regalo con moño', price: 280, badge: '🍫 Favorito' },
-  { id: 14, cat: 'dulces', name: 'Tableta Personalizada', emoji: '🎁', desc: 'Tableta de chocolate belga con mensaje personalizado impreso', price: 180, badge: null },
-  { id: 15, cat: 'dulces', name: 'Canasta Gourmet Dulce', emoji: '🧁', desc: 'Selección de chocolates finos, nueces y dulces en canasta decorada', price: 520, badge: '🎀 Regalo' },
-  { id: 16, cat: 'dulces', name: 'Set Rosas + Chocolates', emoji: '💕', desc: '6 rosas rojas + caja de 8 chocolates surtidos, perfecto en pareja', price: 420, badge: '❤️ Combo' },
+  { id: 13, cat: 'dulces',   name: 'Caja Chocolates Ferrero',          emoji: '🍫', desc: 'Caja de 16 Ferrero Rocher en presentación regalo con moño',             price: 280,  badge: '🍫 Favorito' },
+  { id: 14, cat: 'dulces',   name: 'Tableta Personalizada',            emoji: '🎁', desc: 'Tableta de chocolate belga con mensaje personalizado impreso',           price: 180,  badge: null },
+  { id: 15, cat: 'dulces',   name: 'Canasta Gourmet Dulce',            emoji: '🧁', desc: 'Selección de chocolates finos, nueces y dulces en canasta decorada',    price: 520,  badge: '🎀 Regalo' },
+  { id: 16, cat: 'dulces',   name: 'Set Rosas + Chocolates',           emoji: '💕', desc: '6 rosas rojas + caja de 8 chocolates surtidos, perfecto en pareja',     price: 420,  badge: '❤️ Combo' },
 ];
 
-// ─── WHATSAPP NUMBER ─────────────────────────────────────────────
-// 💡 PERSONALIZA: Reemplaza con el número de WhatsApp Business real
-const WA_NUMBER = '50412345678'; // Formato: código de país + número sin espacios
+// 💡 IMPORTANTE: Cambia este número por el WhatsApp Business real de Floral Studio
+const WA_NUMBER = '50412345678';
 
-// ─── CART STATE ─────────────────────────────────────────────────
 let cart = [];
 let currentCat = 'all';
 
-// ─── RENDER PRODUCTS ────────────────────────────────────────────
+// ─── RENDER PRODUCTS ─────────────────────────────────────────────
 function renderProducts(cat) {
   const grid = document.getElementById('productsGrid');
   const filtered = cat === 'all' ? products : products.filter(p => p.cat === cat);
@@ -786,11 +767,16 @@ function renderProducts(cat) {
 
   grid.innerHTML = filtered.map(p => {
     const inCart = cart.find(c => c.id === p.id);
+    // Si tiene imagen real usa <img>, si no tiene usa emoji
+    const mediaHTML = p.img
+      ? `<img src="${p.img}" alt="${p.name}" loading="lazy">`
+      : `<div class="emoji-fallback"><span style="font-size:3.8rem">${p.emoji}</span></div>`;
+
     return `
     <div class="product-card" data-id="${p.id}">
-      <div class="card-img-placeholder">
+      <div class="card-img-wrap">
         ${p.badge ? `<span class="card-badge">${p.badge}</span>` : ''}
-        <span style="font-size:3.8rem">${p.emoji}</span>
+        ${mediaHTML}
       </div>
       <div class="card-body">
         <span class="card-category">${{ramos:'Ramos',arreglos:'Arreglos',globos:'Globos',dulces:'Dulces'}[p.cat]}</span>
@@ -807,7 +793,6 @@ function renderProducts(cat) {
   }).join('');
 }
 
-// ─── FILTER CATEGORY ────────────────────────────────────────────
 function filterCat(cat, btn) {
   currentCat = cat;
   document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
@@ -815,15 +800,10 @@ function filterCat(cat, btn) {
   renderProducts(cat);
 }
 
-// ─── CART FUNCTIONS ─────────────────────────────────────────────
 function addToCart(id) {
   const product = products.find(p => p.id === id);
   const existing = cart.find(c => c.id === id);
-  if (existing) {
-    existing.qty++;
-  } else {
-    cart.push({ ...product, qty: 1 });
-  }
+  if (existing) { existing.qty++; } else { cart.push({ ...product, qty: 1 }); }
   updateCartUI();
   renderProducts(currentCat);
   if (cart.length === 1) setTimeout(toggleCart, 300);
@@ -841,26 +821,23 @@ function updateQty(id, delta) {
 function updateCartUI() {
   const count = cart.reduce((a, c) => a + c.qty, 0);
   document.getElementById('cartCount').textContent = count;
-
   const total = cart.reduce((a, c) => a + c.price * c.qty, 0);
   document.getElementById('totalAmount').textContent = `L ${total.toFixed(2)}`;
-
-  const waBtn = document.getElementById('waBtn');
-  waBtn.disabled = cart.length === 0;
+  document.getElementById('waBtn').disabled = cart.length === 0;
 
   const container = document.getElementById('cartItems');
   if (cart.length === 0) {
-    container.innerHTML = `
-      <div class="cart-empty">
-        <div class="empty-icon">🌿</div>
-        <p>Aún no has agregado nada.<br>¡Explora el catálogo!</p>
-      </div>`;
+    container.innerHTML = `<div class="cart-empty"><div class="empty-icon">🌿</div><p>Aún no has agregado nada.<br>¡Explora el catálogo!</p></div>`;
     return;
   }
 
-  container.innerHTML = cart.map(item => `
+  container.innerHTML = cart.map(item => {
+    const thumbHTML = item.img
+      ? `<img src="${item.img}" alt="${item.name}">`
+      : item.emoji;
+    return `
     <div class="cart-item">
-      <div class="ci-icon">${item.emoji}</div>
+      <div class="ci-icon">${thumbHTML}</div>
       <div class="ci-info">
         <div class="ci-name">${item.name}</div>
         <div class="ci-price">L ${item.price.toFixed(2)} c/u</div>
@@ -870,51 +847,42 @@ function updateCartUI() {
           <button class="qty-btn" onclick="updateQty(${item.id}, +1)">+</button>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
-// ─── TOGGLE CART ────────────────────────────────────────────────
 function toggleCart() {
-  const drawer = document.getElementById('cartDrawer');
-  const overlay = document.getElementById('overlay');
-  drawer.classList.toggle('open');
-  overlay.classList.toggle('show');
+  document.getElementById('cartDrawer').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
 }
 
-// ─── SEND TO WHATSAPP ───────────────────────────────────────────
 function sendToWhatsApp() {
   if (cart.length === 0) return;
-
-  const name = document.getElementById('clientName').value.trim() || 'Cliente';
+  const name  = document.getElementById('clientName').value.trim() || 'Cliente';
   const phone = document.getElementById('clientPhone').value.trim();
-  const date = document.getElementById('deliveryDate').value;
-  const type = document.getElementById('deliveryType').value;
+  const date  = document.getElementById('deliveryDate').value;
+  const type  = document.getElementById('deliveryType').value;
   const dedication = document.getElementById('dedication').value.trim();
-
   const total = cart.reduce((a, c) => a + c.price * c.qty, 0);
 
   let msg = `🌸 *NUEVO PEDIDO — Floral Studio HN*\n\n`;
   msg += `👤 *Cliente:* ${name}\n`;
   if (phone) msg += `📱 *Teléfono:* ${phone}\n`;
-  if (date) msg += `📅 *Fecha de entrega:* ${date}\n`;
+  if (date)  msg += `📅 *Fecha de entrega:* ${date}\n`;
   msg += `🚚 *Tipo:* ${type}\n\n`;
   msg += `🛍️ *Productos solicitados:*\n`;
   cart.forEach(item => {
-    msg += `  • ${item.emoji} ${item.name} × ${item.qty} = L ${(item.price * item.qty).toFixed(2)}\n`;
+    msg += `  • ${item.name} × ${item.qty} = L ${(item.price * item.qty).toFixed(2)}\n`;
   });
   msg += `\n💳 *Total estimado: L ${total.toFixed(2)}*\n`;
   if (dedication) msg += `\n💌 *Dedicatoria:*\n"${dedication}"\n`;
   msg += `\n_Pedido enviado desde el catálogo web de Floral Studio HN_ 🌸`;
 
-  const encoded = encodeURIComponent(msg);
-  window.open(`https://wa.me/${WA_NUMBER}?text=${encoded}`, '_blank');
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 // ─── INIT ────────────────────────────────────────────────────────
 renderProducts('all');
-
-// Set min date for delivery to today
 const today = new Date().toISOString().split('T')[0];
 document.getElementById('deliveryDate').min = today;
 document.getElementById('deliveryDate').value = today;
